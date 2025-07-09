@@ -48,6 +48,13 @@ if __name__ == "__main__":
     from extensions import db
     with app.app_context():
         db.create_all()
-    # --- Remove the above after tables are created ---
+        # --- TEMPORARY: Create admin user a@a.com with password 'a' ---
+        from models import AdminUser
+        from utils.auth import hash_password
+        if not AdminUser.query.filter_by(email="a@a.com").first():
+            user = AdminUser(email="a@a.com", hashed_password=hash_password("a"))
+            db.session.add(user)
+            db.session.commit()
+        # --- Remove the above after the user is created ---
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=True, host="0.0.0.0", port=port)
