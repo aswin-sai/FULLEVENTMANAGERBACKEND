@@ -3,11 +3,21 @@ from extensions import mail
 from flask import current_app
 
 def send_inquiry_email(inquiry):
+    subject = "New Event Inquiry"
+    sender = current_app.config.get('MAIL_DEFAULT_SENDER')
+    recipients = [current_app.config.get('MAIL_DEFAULT_SENDER')]
+    reply_to = inquiry.email
+    body = f"New inquiry from {inquiry.name} ({inquiry.email}):\n\n{inquiry.message}"
+    print("Email subject:", type(subject), subject)
+    print("Sender:", type(sender), sender)
+    print("Recipients:", type(recipients), recipients)
+    print("Reply-to:", type(reply_to), reply_to)
+    print("Body:", type(body), body)
     msg = Message(
-        subject="New Event Inquiry",
-        sender=current_app.config.get('MAIL_DEFAULT_SENDER'),
-        recipients=[current_app.config.get('MAIL_DEFAULT_SENDER')],  # Send to admin
-        reply_to=inquiry.email,  # Set reply-to as the user's email
-        body=f"New inquiry from {inquiry.name} ({inquiry.email}):\n\n{inquiry.message}"
+        subject=subject,
+        sender=sender,
+        recipients=recipients,  # Send to admin
+        reply_to=reply_to,  # Set reply-to as the user's email
+        body=body
     )
     mail.send(msg)
