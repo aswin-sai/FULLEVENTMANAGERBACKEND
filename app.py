@@ -24,8 +24,9 @@ def create_app():
     jwt.init_app(app)
     cors.init_app(app)
 
-    app.register_blueprint(public_bp)
+    # Register admin routes BEFORE public routes to avoid shadowing
     app.register_blueprint(admin_bp, url_prefix='/admin')
+    app.register_blueprint(public_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(upload_bp, url_prefix='/upload')
 
@@ -39,7 +40,6 @@ def create_app():
     @app.route('/')
     def index():
         return 'Welcome to the Event Manager API!'
-
     return app
 
 if __name__ == "__main__":
