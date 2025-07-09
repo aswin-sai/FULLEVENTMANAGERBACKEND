@@ -331,19 +331,29 @@ def get_testimonial(id):
 @admin_bp.route('/inquiries', methods=['GET'])
 @jwt_required()
 def list_inquiries():
+    print("HIT: /admin/inquiries GET")
     inquiries = Inquiry.query.all()
-    return jsonify([{
-        'id': i.id,
-        'name': i.name,
-        'email': i.email,
-        'phone': i.phone,
-        'event_type': i.event_type,
-        'event_date': i.event_date,
-        'budget': i.budget,
-        'message': i.message,
-        'status': i.status,
-        'created_at': i.created_at
-    } for i in inquiries])
+    return jsonify([
+        {
+            'id': i.id,
+            'name': i.name,
+            'email': i.email,
+            'phone': i.phone,
+            'event_type': i.event_type,
+            'event_date': i.event_date,
+            'budget': i.budget,
+            'message': i.message,
+            'status': i.status,
+            'created_at': i.created_at
+        } for i in inquiries
+    ])
+
+@admin_bp.route('/inquiries', methods=['POST'])
+@jwt_required()
+def create_admin_inquiry():
+    print("HIT: /admin/inquiries POST")
+    # Implement as needed or return a clear error if not supported
+    return jsonify({'msg': 'POST not supported on /admin/inquiries'}), 405
 
 @admin_bp.route('/inquiries/<int:id>', methods=['DELETE'])
 @jwt_required()
