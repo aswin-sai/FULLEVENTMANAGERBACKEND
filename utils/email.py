@@ -1,8 +1,11 @@
 from flask_mail import Message
 from extensions import mail
 from flask import current_app
+import traceback
 
 def send_inquiry_email(inquiry):
+    print("send_inquiry_email called from:")
+    traceback.print_stack()
     subject = "New Event Inquiry"
     sender = current_app.config.get('MAIL_DEFAULT_SENDER')
     recipients = [current_app.config.get('MAIL_DEFAULT_SENDER')]
